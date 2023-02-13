@@ -1,9 +1,15 @@
 import _ from 'lodash';
 
-const handleValidationErrors = (elemenets, current, previous) => {
-  const nowValid = _.isEmpty(current) && !_.isEmpty(previous);
+const handleValidationErrors = (elemenets, current) => {
+  const feedback = document.querySelector('.feedback');
+  const isValid = _.isEmpty(current);
 
-  if (!nowValid) {
+  if (!isValid && feedback) {
+    feedback.textContent = [current];
+    return;
+  }
+
+  if (!isValid) {
     const p = document.createElement('p');
     p.classList.add(
       'feedback',
@@ -15,19 +21,19 @@ const handleValidationErrors = (elemenets, current, previous) => {
     p.textContent = [current];
     elemenets.form.parentElement.append(p);
     elemenets.input.classList.add('is-invalid');
+    return;
   }
 
-  if (nowValid) {
-    document.querySelector('.feedback').remove();
-    elemenets.input.classList.remove('is-invalid');
-  }
+  elemenets.input.classList.remove('is-invalid');
+  feedback?.remove();
 };
 
-const initView = (elements) => (path, current, previous) => {
+const initView = (elements, i18nextInstance) => (path, current, previous) => {
   switch (path) {
     case 'form.errors.validation':
-      handleValidationErrors(elements, current, previous);
+      handleValidationErrors(elements, current, previous, i18nextInstance);
       break;
+    default:
   }
 };
 
