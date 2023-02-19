@@ -3,7 +3,7 @@ import i18next from 'i18next';
 import axios from 'axios';
 import initView from './view';
 import resources from './locales/index';
-import handleSubmit from './controller';
+import { handleSubmit, watchForNewPosts } from './controller';
 
 const init = async () => {
   const initialState = {
@@ -45,6 +45,8 @@ const init = async () => {
     e.preventDefault();
     handleSubmit(e.target, state, axiousInstance, i18nextInstance);
   });
+
+  setTimeout(() => watchForNewPosts(state, axiousInstance), 5000);
 };
 
 export default init;
