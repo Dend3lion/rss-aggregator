@@ -1,8 +1,7 @@
-// Import our custom CSS
+/* eslint-disable no-unused-vars */
+import * as bootstrap from 'bootstrap';
 import './styles.scss';
 
-// Import all of Bootstrap's JS
-import * as bootstrap from 'bootstrap';
 import runApp from './init';
 
 runApp();

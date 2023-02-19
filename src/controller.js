@@ -109,6 +109,5 @@ export const handleModalOpen = (event, state) => {
 
 export const handlePostRead = (el, state) => {
   const postId = el?.dataset?.id;
-  console.log(postId);
   if (postId) state.ui.viewedPosts.push(Number(postId));
 };
