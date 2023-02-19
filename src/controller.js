@@ -41,7 +41,7 @@ const makeRequest = (state, axiousInstance, url, feedId = '') => {
     .then(({ data }) => data.contents)
     .then((xml) => parseXML(xml))
     .then((doc) => {
-      if (!feedId) {
+      if (!feedId && !_.find(state.list.feeds, { url })) {
         const feed = processFeed(doc, state, url);
         state.list.feeds.push(feed);
         state.form.error = '';
@@ -49,7 +49,7 @@ const makeRequest = (state, axiousInstance, url, feedId = '') => {
       }
 
       const posts = processPosts(doc, state.list.posts, feedId);
-      state.list.posts.push(...posts);
+      if (posts.length !== 0) state.list.posts.push(...posts);
     })
     .catch((err) => {
       if (err instanceof AxiosError) {
@@ -90,4 +90,25 @@ export const handleSubmit = async (form, state, axiousInstance) => {
   state.form.status = 'sending';
   makeRequest(state, axiousInstance, url);
   state.form.status = 'ready';
+};
+
+export const handleModalOpen = (event, state) => {
+  const button = event.relatedTarget;
+  const postId = Number(button.dataset.id);
+  const { title, description, url } = _.find(state.list.posts, { id: postId });
+
+  const modal = event.target;
+  const modalTitle = modal.querySelector('.modal-title');
+  const modalBody = modal.querySelector('.modal-body');
+  const modalButton = modal.querySelector('.full-article');
+
+  modalTitle.textContent = title;
+  modalBody.textContent = description;
+  modalButton.href = url;
+};
+
+export const handlePostRead = (el, state) => {
+  const postId = el?.dataset?.id;
+  console.log(postId);
+  if (postId) state.ui.viewedPosts.push(Number(postId));
 };

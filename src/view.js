@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createDomElement, createGroupBlock } from './utils';
 
 const handleErrorsDisplay = (elements, error, i18nextInstance) => {
@@ -44,7 +45,8 @@ const handleFeedAddition = (elements, feeds, previous) => {
   }
   const ul = feedsContainer.querySelector('ul');
 
-  const lis = feeds.map(({ title, description }) => {
+  const newFeeds = _.difference(feeds, previous);
+  const lis = newFeeds.map(({ title, description }) => {
     const li = createDomElement('li', {
       class: 'list-group-item border-0 border-end-0',
     });
@@ -54,12 +56,12 @@ const handleFeedAddition = (elements, feeds, previous) => {
       { class: 'm-0 small text-black-50' },
       description
     );
-    li.append(h3, p);
+    li.prepend(h3, p);
 
     return li;
   });
 
-  ul.replaceChildren(...lis);
+  ul.prepend(...lis);
 };
 
 const handlePostsAddition = (elements, posts, previous) => {
@@ -70,7 +72,8 @@ const handlePostsAddition = (elements, posts, previous) => {
   }
   const ul = postsContainer.querySelector('ul');
 
-  const lis = posts.map(({ title, url, id }) => {
+  const newPosts = _.difference(posts, previous);
+  const lis = newPosts.map(({ title, url, id }) => {
     const li = createDomElement('li', {
       class:
         'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0',
@@ -97,12 +100,25 @@ const handlePostsAddition = (elements, posts, previous) => {
       },
       'Просмотр'
     );
-    li.append(a, button);
+    li.prepend(a, button);
 
     return li;
   });
 
-  ul.replaceChildren(...lis);
+  ul.prepend(...lis);
+};
+
+const handleUiChange = (elemenets, viewedPosts) => {
+  const { posts: postsContainer } = elemenets;
+  const postLinks = postsContainer.querySelectorAll('a');
+  postLinks.forEach((link) => {
+    const postId = Number(link.dataset.id);
+    if (viewedPosts.includes(postId)) {
+      link.classList.add('fw-normal');
+      link.classList.add('link-secondary');
+      link.classList.remove('fw-bold');
+    }
+  });
 };
 
 const initView = (elements, i18nextInstance) => (path, current, previous) => {
@@ -118,6 +134,9 @@ const initView = (elements, i18nextInstance) => (path, current, previous) => {
       break;
     case 'list.posts':
       handlePostsAddition(elements, current, previous);
+      break;
+    case 'ui.viewedPosts':
+      handleUiChange(elements, current);
       break;
     default:
   }

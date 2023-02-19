@@ -3,7 +3,12 @@ import i18next from 'i18next';
 import axios from 'axios';
 import initView from './view';
 import resources from './locales/index';
-import { handleSubmit, watchForNewPosts } from './controller';
+import {
+  handleModalOpen,
+  handlePostRead,
+  handleSubmit,
+  watchForNewPosts,
+} from './controller';
 
 const init = async () => {
   const initialState = {
@@ -16,6 +21,9 @@ const init = async () => {
       feeds: [],
       posts: [],
     },
+    ui: {
+      viewedPosts: [],
+    },
   };
 
   const elemenets = {
@@ -25,6 +33,7 @@ const init = async () => {
     feedback: document.querySelector('.feedback'),
     feeds: document.querySelector('.feeds'),
     posts: document.querySelector('.posts'),
+    modal: document.querySelector('.modal'),
   };
 
   const i18nextInstance = i18next.createInstance();
@@ -44,6 +53,14 @@ const init = async () => {
   elemenets.form.addEventListener('submit', async (e) => {
     e.preventDefault();
     handleSubmit(e.target, state, axiousInstance, i18nextInstance);
+  });
+
+  elemenets.modal.addEventListener('show.bs.modal', (e) => {
+    handleModalOpen(e, state);
+  });
+
+  elemenets.posts.addEventListener('click', (e) => {
+    handlePostRead(e.target, state);
   });
 
   setTimeout(() => watchForNewPosts(state, axiousInstance), 5000);
