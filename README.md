@@ -7,4 +7,5 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/33de3590f799e1b1589a/maintainability)](https://codeclimate.com/github/Dend3lion/frontend-project-11/maintainability)
 
 ### Visit
-[Website](https://frontend-project-11-azxx9lp9m-dend3lion.vercel.app/)
+
+[Website](https://frontend-project-11-dend3lion.vercel.app/)

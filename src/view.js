@@ -27,6 +27,7 @@ const handleStatusChange = (elements, status, i18nextInstance) => {
       elements.submit.setAttribute('disabled', '');
       break;
     case 'sent':
+      elements.form.reset();
       feedback.textContent = i18nextInstance.t('success');
       feedback.classList.add('text-success');
       break;
