@@ -44,8 +44,8 @@ const init = async () => {
     { locator: '.rss-form label[for=url-input]', textKey: 'form.placeholder' },
     { locator: '.rss-form button', textKey: 'form.button' },
     { locator: 'p.text-muted', textKey: 'example' },
-    { locator: '.modal-footer a', textKey: 'modal.close' },
-    { locator: '.modal-footer button', textKey: 'modal.link' },
+    { locator: '.modal-footer a', textKey: 'modal.link' },
+    { locator: '.modal-footer button', textKey: 'modal.close' },
   ];
 
   const i18nextInstance = i18next.createInstance();
