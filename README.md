@@ -1,14 +1,10 @@
 # RSS Agrigator
 
-[Visit](https://frontend-project-11-azxx9lp9m-dend3lion.vercel.app/)
-
 ### Hexlet tests and linter status:
 
 [![Actions Status](https://github.com/Dend3lion/frontend-project-11/workflows/hexlet-check/badge.svg)](https://github.com/Dend3lion/frontend-project-11/actions)
+[![Node.js CI](https://github.com/Dend3lion/frontend-project-11/actions/workflows/node.js.yml/badge.svg)](https://github.com/Dend3lion/frontend-project-11/actions/workflows/node.js.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/33de3590f799e1b1589a/maintainability)](https://codeclimate.com/github/Dend3lion/frontend-project-11/maintainability)
 
-## Start
-
-```bash
-make build
-```
+### Visit
+[Website](https://frontend-project-11-azxx9lp9m-dend3lion.vercel.app/)
