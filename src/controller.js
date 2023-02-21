@@ -9,7 +9,7 @@ const routes = {
 
 const processFeed = (doc, state, url) => {
   const title = doc.querySelector('title').textContent;
-  const description = doc.querySelector('title').textContent;
+  const description = doc.querySelector('description').textContent;
   const id = state.list.feeds.length + 1;
   const newFeed = { id, title, description, url };
 
