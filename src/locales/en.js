@@ -7,6 +7,12 @@ export default {
       button: 'Add',
     },
     example: 'Example: https://ru.hexlet.io/lessons.rss',
+    posts: 'Posts',
+    feeds: 'Feeds',
+    modal: {
+      link: 'Read full article',
+      close: 'Close',
+    },
     errors: {
       xml: 'The resource does not contain valid RSS',
       url: 'Link must be a valid URL',

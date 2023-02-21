@@ -9,6 +9,7 @@ import {
   handleSubmit,
   watchForNewPosts,
 } from './controller';
+import { makeTextSetter } from './utils';
 
 const init = async () => {
   const initialState = {
@@ -36,6 +37,17 @@ const init = async () => {
     modal: document.querySelector('.modal'),
   };
 
+  const staticTexts = [
+    { locator: 'h1', textKey: 'heading' },
+    { locator: '.lead', textKey: 'subheading' },
+    { locator: '#url-input', textKey: 'form.placeholder' },
+    { locator: '.rss-form label[for=url-input]', textKey: 'form.placeholder' },
+    { locator: '.rss-form button', textKey: 'form.button' },
+    { locator: 'p.text-muted', textKey: 'example' },
+    { locator: '.modal-footer a', textKey: 'modal.close' },
+    { locator: '.modal-footer button', textKey: 'modal.link' },
+  ];
+
   const i18nextInstance = i18next.createInstance();
   await i18nextInstance.init({
     lng: initialState.language,
@@ -49,6 +61,11 @@ const init = async () => {
 
   const render = initView(elemenets, i18nextInstance);
   const state = onChange(initialState, render);
+
+  const setText = makeTextSetter(i18nextInstance);
+  staticTexts.forEach(({ locator, textKey }) => {
+    setText(locator, textKey);
+  });
 
   elemenets.form.addEventListener('submit', async (e) => {
     e.preventDefault();

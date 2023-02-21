@@ -22,7 +22,8 @@ const handleStatusChange = (elements, status, i18nextInstance) => {
 
   switch (status) {
     case 'sending':
-      elements.input.setAttribute('readonly', '');
+      elements.input.setAttribute('readonly', 'true');
+      elements.input.setAttribute('disabled', '');
       elements.submit.setAttribute('disabled', '');
       break;
     case 'sent':
@@ -31,16 +32,17 @@ const handleStatusChange = (elements, status, i18nextInstance) => {
       break;
     case 'ready':
       elements.input.removeAttribute('readonly');
+      elements.input.removeAttribute('disabled');
       elements.submit.removeAttribute('disabled');
       break;
     default:
   }
 };
 
-const handleFeedAddition = (elements, feeds, previous) => {
+const handleFeedAddition = (elements, feeds, previous, i18nextInstance) => {
   const feedsContainer = elements.feeds;
   if (previous.length === 0) {
-    const block = createGroupBlock('Фиды');
+    const block = createGroupBlock(i18nextInstance.t('feeds'));
     feedsContainer.append(block);
   }
   const ul = feedsContainer.querySelector('ul');
@@ -64,10 +66,10 @@ const handleFeedAddition = (elements, feeds, previous) => {
   ul.prepend(...lis);
 };
 
-const handlePostsAddition = (elements, posts, previous) => {
+const handlePostsAddition = (elements, posts, previous, i18nextInstance) => {
   const postsContainer = elements.posts;
   if (previous.length === 0) {
-    const block = createGroupBlock('Посты');
+    const block = createGroupBlock(i18nextInstance.t('posts'));
     postsContainer.append(block);
   }
   const ul = postsContainer.querySelector('ul');
@@ -130,10 +132,10 @@ const initView = (elements, i18nextInstance) => (path, current, previous) => {
       handleStatusChange(elements, current, i18nextInstance);
       break;
     case 'list.feeds':
-      handleFeedAddition(elements, current, previous);
+      handleFeedAddition(elements, current, previous, i18nextInstance);
       break;
     case 'list.posts':
-      handlePostsAddition(elements, current, previous);
+      handlePostsAddition(elements, current, previous, i18nextInstance);
       break;
     case 'ui.viewedPosts':
       handleUiChange(elements, current);

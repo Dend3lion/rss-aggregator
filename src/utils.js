@@ -51,3 +51,7 @@ export const createGroupBlock = (title) => {
 
   return container;
 };
+
+export const makeTextSetter = (i18nextInstance) => (selector, textKey) => {
+  document.querySelector(selector).textContent = i18nextInstance.t(textKey);
+};

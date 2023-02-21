@@ -35,7 +35,7 @@ const processPosts = (doc, posts, feedId) => {
   return newPosts;
 };
 
-const makeRequest = (state, axiousInstance, url, feedId = '') => {
+const makeRequest = (state, axiousInstance, url, feedId = '') =>
   axiousInstance
     .get(routes.get(url))
     .then(({ data }) => data.contents)
@@ -59,7 +59,6 @@ const makeRequest = (state, axiousInstance, url, feedId = '') => {
 
       state.form.error = err.message;
     });
-};
 
 export const watchForNewPosts = (state, axiousInstance) => {
   state.list.feeds.forEach(({ id, url }) => {
@@ -88,8 +87,9 @@ export const handleSubmit = async (form, state, axiousInstance) => {
   }
 
   state.form.status = 'sending';
-  makeRequest(state, axiousInstance, url);
-  state.form.status = 'ready';
+  makeRequest(state, axiousInstance, url).finally(() => {
+    state.form.status = 'ready';
+  });
 };
 
 export const handleModalOpen = (event, state) => {
