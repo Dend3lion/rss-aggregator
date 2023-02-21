@@ -57,7 +57,7 @@ const handleFeedAddition = (elements, feeds, previous, i18nextInstance) => {
     const p = createDomElement(
       'p',
       { class: 'm-0 small text-black-50' },
-      description
+      description,
     );
     li.prepend(h3, p);
 
@@ -90,7 +90,7 @@ const handlePostsAddition = (elements, posts, previous, i18nextInstance) => {
         target: '_blank',
         rel: 'noopener noreferrer',
       },
-      title
+      title,
     );
     const button = createDomElement(
       'button',
@@ -101,7 +101,7 @@ const handlePostsAddition = (elements, posts, previous, i18nextInstance) => {
         'data-bs-toggle': 'modal',
         'data-bs-target': '#modal',
       },
-      'Просмотр'
+      'Просмотр',
     );
     li.prepend(a, button);
 

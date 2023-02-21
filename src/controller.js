@@ -11,7 +11,12 @@ const processFeed = (doc, state, url) => {
   const title = doc.querySelector('title').textContent;
   const description = doc.querySelector('description').textContent;
   const id = state.list.feeds.length + 1;
-  const newFeed = { id, title, description, url };
+  const newFeed = {
+    id,
+    title,
+    description,
+    url,
+  };
 
   return newFeed;
 };
@@ -25,7 +30,13 @@ const processPosts = (doc, posts, feedId) => {
     const id = posts.length + index + 1;
 
     if (!_.find(posts, { url })) {
-      const post = { id, title, description, url, feedId };
+      const post = {
+        id,
+        title,
+        description,
+        url,
+        feedId,
+      };
       return [...acc, post];
     }
 
@@ -35,30 +46,29 @@ const processPosts = (doc, posts, feedId) => {
   return newPosts;
 };
 
-const makeRequest = (state, axiousInstance, url, feedId = '') =>
-  axiousInstance
-    .get(routes.get(url))
-    .then(({ data }) => data.contents)
-    .then((xml) => parseXML(xml))
-    .then((doc) => {
-      if (!feedId && !_.find(state.list.feeds, { url })) {
-        const feed = processFeed(doc, state, url);
-        state.list.feeds.push(feed);
-        state.form.error = '';
-        state.form.status = 'sent';
-      }
+const makeRequest = (state, axiousInstance, url, feedId = '') => axiousInstance
+  .get(routes.get(url))
+  .then(({ data }) => data.contents)
+  .then((xml) => parseXML(xml))
+  .then((doc) => {
+    if (!feedId && !_.find(state.list.feeds, { url })) {
+      const feed = processFeed(doc, state, url);
+      state.list.feeds.push(feed);
+      state.form.error = '';
+      state.form.status = 'sent';
+    }
 
-      const posts = processPosts(doc, state.list.posts, feedId);
-      if (posts.length !== 0) state.list.posts.push(...posts);
-    })
-    .catch((err) => {
-      if (err instanceof AxiosError) {
-        state.form.error = 'errors.network';
-        return;
-      }
+    const posts = processPosts(doc, state.list.posts, feedId);
+    if (posts.length !== 0) state.list.posts.push(...posts);
+  })
+  .catch((err) => {
+    if (err instanceof AxiosError) {
+      state.form.error = 'errors.network';
+      return;
+    }
 
-      state.form.error = err.message;
-    });
+    state.form.error = err.message;
+  });
 
 export const watchForNewPosts = (state, axiousInstance) => {
   state.list.feeds.forEach(({ id, url }) => {
