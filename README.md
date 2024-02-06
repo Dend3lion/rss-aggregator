@@ -43,7 +43,7 @@ To run this app locally, you will need to follow these steps:
 
 ```bash
 make install
-make start
+make build
 ```
 
 ## Usage
